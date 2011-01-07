@@ -36,6 +36,8 @@ server {
     #    include        fastcgi_params;
     #}
 
+<% if enable_cgi != false -%>
+
     location ~ ^.*\.cgi$ {
 	    gzip off; #gzip makes scripts feel slower since they have to complete before getting gzipped
 	    fastcgi_pass  localhost:8999;
@@ -58,4 +60,5 @@ server {
 	    fastcgi_param SERVER_PORT        $server_port;
 	    fastcgi_param SERVER_NAME        $server_name;
     }
+<% end -%>
 }

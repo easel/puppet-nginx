@@ -14,10 +14,18 @@
 
 class nginx  {
 
+    $nginx_user = $operatingsystem ? {
+        Debian => "www-data",
+        Ubuntu => "www-data",
+        RedHat => "nginx",
+        Fedora => "nginx",
+        CentOS => "nginx",
+    }
+
     package { nginx: ensure => installed }
 
     file { "/usr/local/bin/fcgi-wrapcgi.pl":
-        source => "puppet:///nginx/fcgi-wrapcgi.pl",
+        source => "puppet:///modules/nginx/fcgi-wrapcgi.pl",
         mode => 755,
         owner => root,
         before => Service[nginx]
@@ -27,7 +35,13 @@ class nginx  {
         content => template("nginx/nginx.conf.erb"),
         mode => 644,
         owner => root,
-        notify => Service[nginx]
+        notify => Service[nginx],
+        require => Package[nginx],
+    }
+
+    file { ["/etc/nginx/sites-available", "/etc/nginx/sites-enabled"]:
+        ensure => directory,
+        require => Package[nginx],
     }
 
     file { "/etc/nginx/sites-enabled/default":
@@ -45,6 +59,7 @@ class nginx  {
         file { "/etc/nginx/sites-available/${name}.conf":
             content => template($conf_source),
             ensure => present,
+            notify => Service[nginx],
         }
         file { "/etc/nginx/sites-enabled/${name}.conf":
             ensure => link,
