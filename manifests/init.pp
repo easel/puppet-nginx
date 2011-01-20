@@ -68,7 +68,7 @@ class nginx  {
         }
     }
 
-    define proxy ($server_name="localhost", $server_path="/", $port=80, $proxy_url="http://127.0.0.1/", $conf_source="nginx/proxy.conf.erb") {
+    define proxy ($server_name="localhost", $server_path="/", $server_port=80, $proxy_url="http://127.0.0.1/", $conf_source="nginx/proxy.conf.erb") {
         file { "/etc/nginx/sites-available/${name}.conf":
             content => template($conf_source),
             ensure => present,
@@ -81,8 +81,3 @@ class nginx  {
         }
     }
 }
-
-
-}
-
-

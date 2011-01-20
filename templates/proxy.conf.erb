@@ -1,8 +1,8 @@
 server {
-    listen       <%= port %>;
+    listen       <%= server_port %>;
     server_name  <%= server_name %>;
 
-    location <%= source_path %> {
+    location <%= server_path %> {
         proxy_pass <%= proxy_url %>;
     }
 }
