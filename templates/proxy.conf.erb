@@ -4,5 +4,12 @@ server {
 
     location <%= server_path %> {
         proxy_pass <%= proxy_url %>;
+        track_uploads proxied 30s;
+    }
+    # report uploads tracked in the 'proxied' zone
+    #
+    location ^~ /progress {
+        report_uploads proxied;
+        upload_progress_json_output;
     }
 }
