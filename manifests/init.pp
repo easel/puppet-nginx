@@ -14,6 +14,8 @@
 
 class nginx  {
 
+ 		
+
     $nginx_user = $operatingsystem ? {
         Debian => "www-data",
         Ubuntu => "www-data",
@@ -22,7 +24,16 @@ class nginx  {
         CentOS => "nginx",
     }
 
-    package { nginx: ensure => installed }
+    case $operatingsystem {
+        "centos": {
+            include yum
+            #require => Yum::Managedrepo['epel']
+        }
+    }
+
+    package { nginx: 
+        ensure => installed
+    }
 
     file { "/usr/local/bin/fcgi-wrapcgi.pl":
         source => "puppet:///modules/nginx/fcgi-wrapcgi.pl",
@@ -81,3 +92,6 @@ class nginx  {
         }
     }
 }
+
+# vim modeline - have 'set modeline' and 'syntax on' in your ~/.vimrc.
+# vi:syntax=puppet:filetype=puppet:ts=8:sw=4:et:
