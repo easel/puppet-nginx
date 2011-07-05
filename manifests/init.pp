@@ -24,13 +24,6 @@ class nginx  {
         CentOS => "nginx",
     }
 
-    case $operatingsystem {
-        "centos": {
-            include yum
-            #require => Yum::Managedrepo['epel']
-        }
-    }
-
     package { nginx: 
         ensure => installed
     }

@@ -1,5 +1,9 @@
 Simple cross-platform nginx configuration module.
 
+Depends on -easel nginx builds:
+  https://github.com/easel/nginx-centos-rpm
+  https://launchpad.net/~erik-labianca/+archive/erik-labianca-ppa
+
 Example usage:
 
 node 'nginx-node' {
